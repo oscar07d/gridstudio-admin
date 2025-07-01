@@ -84,6 +84,39 @@ if (btnGoogle) {
   });
 }
 
+// =================== INICIO DE SESIÓN CON EMAIL Y CONTRASEÑA =================== //
+
+const loginForm = document.getElementById("emailPasswordLoginForm");
+if (loginForm) {
+  loginForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById("loginEmail").value.trim();
+    const password = document.getElementById("loginPassword").value.trim();
+
+    try {
+      const result = await signInWithEmailAndPassword(auth, email, password);
+      const user = result.user;
+      console.log("✅ Usuario autenticado:", user.email);
+
+      // Verifica si es admin
+      const esAdmin = await isUserAdmin(user.email);
+      if (!esAdmin) {
+        alert("⛔ No tienes permisos para acceder a este panel.");
+        await signOut(auth);
+        return;
+      }
+
+      // Redirige si todo está bien
+      window.location.href = "dashboard.html";
+
+    } catch (error) {
+      console.error("❌ Error al iniciar sesión con email:", error.message);
+      alert("Correo o contraseña incorrectos.");
+    }
+  });
+}
+
 // =================== OBSERVADOR DE SESIÃ“N =================== //
 
 onAuthStateChanged(auth, async (user) => {
