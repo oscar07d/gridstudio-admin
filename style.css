@@ -1,0 +1,208 @@
+/* =================== GENERAL =================== */
+
+:root {
+  --primary: #3a6ff7;
+  --secondary: #f5f7fa;
+  --text: #2c3e50;
+  --danger: #e74c3c;
+  --success: #27ae60;
+  --bg: #ffffff;
+  --font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font);
+  background-color: var(--secondary);
+  color: var(--text);
+  padding: 20px;
+}
+
+/* =================== LOGIN =================== */
+
+.login-container {
+  max-width: 400px;
+  background: var(--bg);
+  padding: 30px;
+  margin: 60px auto;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.login-container h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.login-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.login-container input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.btn-primary,
+.btn-google,
+.btn-secondary,
+.btn-save,
+.btn-link {
+  padding: 10px;
+  border: none;
+  border-radius: 50px;
+  color: #fff;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+}
+
+.btn-google {
+    width: 100%;
+    max-width: 320px;
+    padding: 14px 20px;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease, transform var(--transition-speed) ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    border: 1px solid var(--border-color);
+    text-decoration: none;
+    background-color: #fff;
+    color: #444;
+    box-shadow: var(--box-shadow-light);
+}
+
+.btn-google:hover {
+    border-color: var(--primary-color); /* Borde azul al pasar el cursor */
+    box-shadow: 0 6px 20px rgba(0, 123, 255, 0.15); /* Sombra azulada */
+    transform: translateY(-3px);
+}
+
+.google-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+.btn-secondary {
+  background-color: #777;
+}
+
+.btn-save {
+  background-color: var(--success);
+  margin-top: 10px;
+}
+
+.btn-link {
+  background-color: var(--primary);
+  margin-top: 10px;
+}
+
+.separator {
+  text-align: center;
+  margin: 15px 0;
+  color: #888;
+}
+
+/* =================== PANEL =================== */
+
+.admin-panel {
+  max-width: 900px;
+  margin: 0 auto;
+  background: var(--bg);
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+header h1 {
+  font-size: 24px;
+  color: var(--primary);
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.control-section h2,
+.profile-section h2 {
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.control-group label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-family: var(--font);
+  resize: vertical;
+}
+
+/* =================== PROFILE =================== */
+
+.profile-section p {
+  margin: 6px 0;
+}
+
+.profile-section span {
+  font-weight: 500;
+  color: var(--primary);
+}
+
+/* =================== RESPONSIVE =================== */
+
+@media (max-width: 768px) {
+  .admin-panel {
+    padding: 20px;
+  }
+
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  main {
+    gap: 30px;
+  }
+}
