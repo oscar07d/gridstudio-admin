@@ -1,6 +1,6 @@
 // Importa mÃ³dulos de Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 // ConfiguraciÃ³n de Firebase (proyecto: gridstudio-admin-panel)
@@ -18,18 +18,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-const email = document.getElementById("inputEmail").value;
-const password = document.getElementById("inputPassword").value;
-const user = auth.currentUser;
-const docRef = doc(db, "admins", user.uid);
-const docSnap = await getDoc(docRef);
-
-if (!docSnap.exists()) {
-  alert("⛔ No tienes permisos para acceder.");
-  await signOut(auth);
-  return;
-}
-
 async function isUserAdmin(uid) {
   const docRef = doc(db, "admins", uid);
   const docSnap = await getDoc(docRef);
@@ -59,18 +47,6 @@ async function loadSystemAlerts() {
     console.error("❌ Error al cargar alertas:", error.message);
   }
 }
-
-signInWithEmailAndPassword(auth, email, password)
-  .then(userCredential => {
-    const user = userCredential.user;
-    console.log("✅ Inicio de sesión correcto:", user.email);
-    // Redirigir al dashboard
-    window.location.href = "dashboard.html";
-  })
-  .catch(error => {
-    console.error("❌ Error al iniciar sesión:", error.message);
-    alert("Correo o contraseña incorrectos.");
-  });
 
 // =================== FUNCIÃ“N DE LOGIN CON GOOGLE =================== //
 
