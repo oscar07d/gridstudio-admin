@@ -134,6 +134,23 @@ button[type="submit"]:hover {
   cursor: pointer;
 }
 
+.alert-banner {
+  background-color: #fff8d3;
+  border-left: 6px solid #ffc107;
+  padding: 10px 20px;
+  margin: 20px auto;
+  width: 90%;
+  max-width: 700px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #856404;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* ====== Responsive ====== */
 @media screen and (max-width: 768px) {
   main {
