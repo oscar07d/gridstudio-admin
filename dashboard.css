@@ -88,6 +88,52 @@ button[type="submit"]:hover {
   background-color: #1662c4;
 }
 
+#systemAlertsSection {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 40px;
+}
+
+#alertForm {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 400px;
+}
+
+#alertForm input,
+#alertForm select,
+#alertForm button {
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.alert-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #eee;
+  padding: 12px;
+  border-radius: 8px;
+  margin: 8px 0;
+}
+
+.alert-item span {
+  font-weight: 500;
+}
+
+.alert-item .delete-btn {
+  background: #e53935;
+  color: white;
+  border: none;
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
 /* ====== Responsive ====== */
 @media screen and (max-width: 768px) {
   main {
