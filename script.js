@@ -2,6 +2,16 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  collection,
+  addDoc,
+  getDocs,
+  deleteDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 // ConfiguraciÃ³n de Firebase (proyecto: gridstudio-admin-panel)
 const firebaseConfig = {
@@ -126,4 +136,60 @@ if (btnLogout) {
       console.error("âŒ Error al cerrar sesiÃ³n:", error.message);
     }
   });
+}
+
+// =================== ADMIN: Gestión de Alertas =================== //
+
+async function loadSystemAlertsDashboard() {
+  const alertList = document.getElementById("alertList");
+  if (!alertList) return;
+
+  alertList.innerHTML = "";
+
+  const snapshot = await getDocs(collection(db, "systemAlerts"));
+  snapshot.forEach((docSnap) => {
+    const alert = docSnap.data();
+    const div = document.createElement("div");
+    div.className = "alert-item";
+
+    div.innerHTML = `
+      <span>${alert.type.toUpperCase()} — ${alert.message}</span>
+      <button class="delete-btn" data-id="${docSnap.id}">Eliminar</button>
+    `;
+
+    alertList.appendChild(div);
+  });
+
+  // Manejar eliminación
+  document.querySelectorAll(".delete-btn").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const id = btn.getAttribute("data-id");
+      await deleteDoc(doc(db, "systemAlerts", id));
+      loadSystemAlertsDashboard(); // Recargar
+    });
+  });
+}
+
+const alertForm = document.getElementById("alertForm");
+if (alertForm) {
+  alertForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const message = document.getElementById("alertMessage").value.trim();
+    const type = document.getElementById("alertType").value;
+
+    if (!message) return;
+
+    await addDoc(collection(db, "systemAlerts"), {
+      message,
+      type,
+      createdAt: new Date().toISOString()
+    });
+
+    alertForm.reset();
+    loadSystemAlertsDashboard();
+  });
+
+  // Carga inicial de alertas
+  loadSystemAlertsDashboard();
 }
