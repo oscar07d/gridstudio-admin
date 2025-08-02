@@ -2,33 +2,28 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebas
 import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, initializeAuth, indexedDBLocalPersistence } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
 import { getFirestore, collection, addDoc, serverTimestamp, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
 
-// --- TU CONFIGURACIÓN DE FIREBASE ---
+// --- Your Firebase Config ---
 const firebaseConfig = {
-  apiKey: "AIzaSyABKvAAUxoyzvcjCXaSbwZzT0RCI32-vRQ",
-  authDomain: "facturadorweb-5125f.firebaseapp.com",
-  projectId: "facturadorweb-5125f",
-  storageBucket: "facturadorweb-5125f.firebasestorage.app",
-  messagingSenderId: "622762316446",
-  appId: "1:622762316446:web:1625bc78893e674188a18f",
-  measurementId: "G-ETGNS3KCVP"
+    apiKey: "AIzaSyABKvAAUxoyzvcjCXaSbwZzT0RCI32-vRQ",
+    authDomain: "facturadorweb-5125f.firebaseapp.com",
+    projectId: "facturadorweb-5125f",
+    storageBucket: "facturadorweb-5125f.firebasestorage.app",
+    messagingSenderId: "622762316446",
+    appId: "1:622762316446:web:1625bc78893e674188a18f"
 };
 
-// --- ID DE USUARIO ADMINISTRADOR (YA INSERTADO) ---
-const ADMIN_UIDS = [
-    "w7VT3eANXZNswsQi2xoiM2r7bJh2",
-    "q8ZHZaTN7ZfvQYJxRgBgI2v3cU22" // Asegúrate de que este UID sea correcto para tu segundo administrador
-];
+// --- Admin User IDs ---
+const ADMIN_UIDS = ["w7VT3eANXZNswsQi2xoiM2r7bJh2", "q8ZHZaTN7ZfvQYJxRgBgI2v3cU22"];
 
-// --- Inicialización ---
+// --- Initialization ---
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const googleProvider = new GoogleAuthProvider();
-
 const adminAuth = initializeAuth(app, {
-  persistence: indexedDBLocalPersistence // Esto asegura que la sesión sea independiente
+  persistence: indexedDBLocalPersistence
 });
 
-// --- Elementos del DOM ---
+// --- DOM Elements ---
 const loginContainer = document.getElementById('login-container');
 const adminPanel = document.getElementById('admin-panel');
 const loginButton = document.getElementById('loginButton');
@@ -36,28 +31,16 @@ const logoutButton = document.getElementById('logoutButton');
 const notificationForm = document.getElementById('notification-form');
 const sentNotificationsList = document.getElementById('sent-notifications-list');
 
-// --- Lógica de Autenticación y Seguridad ---
+// --- Auth Logic ---
 onAuthStateChanged(adminAuth, (user) => {
     if (user) {
-        // Mensajes de depuración para la consola
-        console.log("Usuario logueado:", user.displayName);
-        console.log("UID del usuario actual:", user.uid);
-        console.log("Lista de UIDs de admin:", ADMIN_UIDS);
-
-        // Comprueba si el UID del usuario actual está en la lista de administradores
         if (ADMIN_UIDS.includes(user.uid)) {
-            // Si es admin, muestra el panel.
-            console.log("Acceso Permitido.");
             loginContainer.style.display = 'none';
             adminPanel.style.display = 'block';
             loadSentNotifications();
         } else {
-            // Si NO es admin, bloquea el acceso.
-            console.error("Acceso Denegado. El UID del usuario no está en la lista de administradores.");
-            loginContainer.innerHTML = '<h1>Acceso Denegado</h1><p>No tienes permiso para acceder a este panel.</p>';
-            loginContainer.style.display = 'block';
-            adminPanel.style.display = 'none';
-            signOut(adminAuth); // Cierra la sesión
+            loginContainer.innerHTML = '<h1>Access Denied</h1><p>You do not have permission to access this panel.</p>';
+            signOut(adminAuth);
         }
     } else {
         loginContainer.style.display = 'block';
@@ -68,7 +51,7 @@ onAuthStateChanged(adminAuth, (user) => {
 loginButton.addEventListener('click', () => signInWithPopup(adminAuth, googleProvider));
 logoutButton.addEventListener('click', () => signOut(adminAuth));
 
-// --- Lógica para Enviar y Mostrar Notificaciones ---
+// --- Notification Logic ---
 notificationForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const title = document.getElementById('notification-title').value;
@@ -81,10 +64,8 @@ notificationForm.addEventListener('submit', async (e) => {
             createdAt: serverTimestamp()
         });
         notificationForm.reset();
-        alert("¡Notificación enviada con éxito!");
     } catch (error) {
-        console.error("Error al enviar notificación:", error);
-        alert("Error al enviar notificación.");
+        console.error("Error sending notification:", error);
     }
 });
 
@@ -95,14 +76,9 @@ function loadSentNotifications() {
         querySnapshot.forEach((doc) => {
             const notif = doc.data();
             const li = document.createElement('li');
-            const date = notif.createdAt?.toDate().toLocaleString('es-CO') || 'Enviando...';
+            const date = notif.createdAt?.toDate().toLocaleString('es-CO') || 'Sending...';
             li.innerHTML = `<strong>${notif.title}</strong><p>${notif.description}</p><small>${date}</small>`;
             sentNotificationsList.appendChild(li);
         });
     });
 }
-
-
-
-
-
