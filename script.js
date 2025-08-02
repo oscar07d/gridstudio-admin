@@ -18,7 +18,7 @@ const ADMIN_UIDS = ["w7VT3eANXZNswsQi2xoiM2r7bJh2", "q8ZHZaTN7ZfvQYJxRgBgI2v3cU2
 // --- Initialization ---
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-const googleProvider = new GoogleAuthProvider(); // This was the missing or incorrect part
+const googleProvider = new GoogleAuthProvider(); // This was the missing part
 const adminAuth = initializeAuth(app, {
   persistence: indexedDBLocalPersistence
 });
