@@ -14,7 +14,10 @@ const firebaseConfig = {
 };
 
 // --- ID DE USUARIO ADMINISTRADOR (YA INSERTADO) ---
-allow write: if request.auth.uid in ['w7VT3eANXZNswsQi2xoiM2r7bJh2', 'q8ZHZaTN7ZfvQYJxRgBgI2v3cU22'];
+const ADMIN_UIDS = [
+    "w7VT3eANXZNswsQi2xoiM2r7bJh2",
+    "q8ZHZaTN7ZfvQYJxRgBgI2v3cU22" // Asegúrate de que este UID sea correcto para tu segundo administrador
+];
 
 // --- Inicialización ---
 const app = initializeApp(firebaseConfig);
@@ -95,6 +98,7 @@ function loadSentNotifications() {
         });
     });
 }
+
 
 
 
