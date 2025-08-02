@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, initializeAuth, indexedDBLocalPersistence } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
 import { getFirestore, collection, addDoc, serverTimestamp, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
 
 // --- TU CONFIGURACIÓN DE FIREBASE ---
@@ -21,9 +21,12 @@ const ADMIN_UIDS = [
 
 // --- Inicialización ---
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
 const db = getFirestore(app);
 const googleProvider = new GoogleAuthProvider();
+
+const adminAuth = initializeAuth(app, {
+  persistence: indexedDBLocalPersistence // Esto asegura que la sesión sea independiente
+});
 
 // --- Elementos del DOM ---
 const loginContainer = document.getElementById('login-container');
@@ -34,7 +37,7 @@ const notificationForm = document.getElementById('notification-form');
 const sentNotificationsList = document.getElementById('sent-notifications-list');
 
 // --- Lógica de Autenticación y Seguridad ---
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(adminAuth, (user) => {
     if (user) {
         // Mensajes de depuración para la consola
         console.log("Usuario logueado:", user.displayName);
@@ -54,7 +57,7 @@ onAuthStateChanged(auth, (user) => {
             loginContainer.innerHTML = '<h1>Acceso Denegado</h1><p>No tienes permiso para acceder a este panel.</p>';
             loginContainer.style.display = 'block';
             adminPanel.style.display = 'none';
-            signOut(auth); // Cierra la sesión
+            signOut(adminAuth); // Cierra la sesión
         }
     } else {
         loginContainer.style.display = 'block';
@@ -62,8 +65,8 @@ onAuthStateChanged(auth, (user) => {
     }
 });
 
-loginButton.addEventListener('click', () => signInWithPopup(auth, googleProvider));
-logoutButton.addEventListener('click', () => signOut(auth));
+loginButton.addEventListener('click', () => signInWithPopup(adminAuth, googleProvider));
+logoutButton.addEventListener('click', () => signOut(adminAuth));
 
 // --- Lógica para Enviar y Mostrar Notificaciones ---
 notificationForm.addEventListener('submit', async (e) => {
@@ -98,6 +101,7 @@ function loadSentNotifications() {
         });
     });
 }
+
 
 
 
