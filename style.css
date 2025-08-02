@@ -1,86 +1,146 @@
+/* ============================================= */
+/* === ESTILOS PARA EL PANEL DE ADMINISTRADOR === */
+/* ============================================= */
+
+/* 1. FUENTES Y VARIABLES (Igual que la App Principal)
+/* ============================================= */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --primary-color: #007bff;
+    --primary-hover-color: #0056b3;
+    --background-color: #f5f7fa;
+    --container-background: #ffffff;
+    --text-color: #212529;
+    --text-muted-color: #6c757d;
+    --danger-color: #dc3545;
+    --border-color: #dee2e6;
+    --border-radius-m: 15px;
+}
+
+/* 2. ESTILOS GLOBALES
+/* ============================================= */
 body {
-  font-family: sans-serif;
-  background: #f0f2f5;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
-#login-container,
-#admin-panel {
-  background: white;
-  padding: 40px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  max-width: 500px;
-  width: 100%;
+/* 3. CONTENEDORES PRINCIPALES
+/* ============================================= */
+#login-container, #admin-panel {
+    background: var(--container-background);
+    padding: 40px;
+    border-radius: var(--border-radius-m);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 500px;
+    width: 100%;
+    border-top: 4px solid var(--primary-color);
 }
 
 #admin-panel {
-  text-align: left;
+    text-align: left;
 }
 
 header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #ccc;
-  padding-bottom: 15px;
-  margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 15px;
+    margin-bottom: 25px;
 }
 
+h1, h2 {
+    color: var(--text-color);
+}
+
+h1 { font-size: 1.8rem; }
+h2 { font-size: 1.3rem; margin-bottom: 15px; color: var(--primary-color); }
+p { color: var(--text-muted-color); }
+
+/* 4. FORMULARIO Y BOTONES
+/* ============================================= */
 .form-group {
-  margin-bottom: 15px;
+    margin-bottom: 20px;
 }
-
 label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--text-muted-color);
+    font-size: 0.9rem;
 }
-
-input,
-textarea {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
+input, textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
 }
 
 button {
-  background: #007bff;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+    background: var(--primary-color);
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
 }
-
 button:hover {
-  background: #0056b3;
+    background: var(--primary-hover-color);
 }
 
 #logoutButton {
-  background: #dc3545;
+    background: var(--danger-color);
+    padding: 8px 15px;
+    font-size: 0.9rem;
 }
 
-ul {
-  list-style: none;
-  padding: 0;
+/* 5. LISTA DE NOTIFICACIONES ENVIADAS
+/* ============================================= */
+#sent-notifications-list {
+    list-style: none;
+    padding: 0;
+    max-height: 300px;
+    overflow-y: auto;
+    border-top: 1px solid var(--border-color);
 }
-
-li {
-  background: #f9f9f9;
-  padding: 10px;
-  border: 1px solid #eee;
-  margin-bottom: 5px;
-  border-radius: 4px;
+#sent-notifications-list li {
+    background: #f8f9fa;
+    padding: 15px;
+    border-bottom: 1px solid var(--border-color);
 }
-
-li strong {
-  display: block;
+#sent-notifications-list li:last-child {
+    border-bottom: none;
+}
+#sent-notifications-list li strong {
+    display: block;
+    color: var(--text-color);
+}
+#sent-notifications-list li p {
+    margin: 4px 0;
+    color: var(--text-muted-color);
+}
+#sent-notifications-list li small {
+    font-size: 0.8rem;
+    color: #999;
 }
