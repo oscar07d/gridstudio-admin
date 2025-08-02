@@ -1,76 +1,40 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Panel Administrador | Grid Studio</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Notificaciones</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="loginContainer" class="login-container">
-    <h2>Iniciar Sesión - Admin Grid Studio</h2>
+    <div id="login-container">
+        <h1>Panel de Administrador</h1>
+        <p>Inicia sesión para enviar notificaciones</p>
+        <button id="loginButton">Iniciar Sesión con Google</button>
+    </div>
 
-    <form id="loginForm">
-      <input type="email" id="email" placeholder="Correo electrónico" required />
-      <input type="password" id="password" placeholder="Contraseña" required />
-      <button type="submit" class="btn-primary">Ingresar</button>
-    </form>
-
-    <div class="separator">o</div>
-
-    <button type="button" id="btnGoogleLogin" class="btn-google">
-	  <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google icon" class="google-icon">
-	  Iniciar sesión con Google
-	</button>
-  </div>
-
-  <div id="adminPanel" class="admin-panel" style="display: none;">
-    <header>
-      <h1>Grid Studio - Centro de Control</h1>
-      <button id="logoutBtn" class="btn-secondary">Cerrar sesión</button>
-    </header>
-
-    <main>
-      <section class="control-section">
-        <h2>Controles Generales</h2>
-        <div class="control-group">
-          <label>
-            <input type="checkbox" id="toggleAppAccess" />
-            Suspender acceso a la aplicación por mantenimiento
-          </label>
-          <label>
-            <input type="checkbox" id="toggleInvoices" />
-            Deshabilitar módulo de facturación
-          </label>
-          <label>
-            <input type="checkbox" id="toggleClients" />
-            Deshabilitar módulo de clientes
-          </label>
-          <label>
-            <input type="checkbox" id="toggleReminders" />
-            Deshabilitar función de recordatorios
-          </label>
-        </div>
-        <div>
-          <label for="customMessage">Mensaje de Mantenimiento (opcional):</label>
-          <textarea id="customMessage" rows="3" placeholder="Ej: Estamos en mantenimiento, vuelve más tarde."></textarea>
-          <button id="saveSettingsBtn" class="btn-save">Guardar Cambios</button>
-        </div>
-      </section>
-
-      <section class="profile-section">
-        <h2>Mi Perfil</h2>
-        <div id="adminProfile">
-          <p><strong>Correo:</strong> <span id="profileEmail">-</span></p>
-          <p><strong>Usuario Vinculado:</strong> <span id="linkedUsername">-</span></p>
-          <p><strong>Google Vinculado:</strong> <span id="googleLinked">No</span></p>
-          <button id="linkGoogleBtn" class="btn-link">Vincular con Google</button>
-        </div>
-      </section>
-    </main>
-  </div>
-
-  <script type="module" src="firebase-config.js"></script>
-  <script type="module" src="script.js"></script>
+    <div id="admin-panel" style="display: none;">
+        <header>
+            <h1>Enviar Notificación del Sistema</h1>
+            <button id="logoutButton">Cerrar Sesión</button>
+        </header>
+        <main>
+            <form id="notification-form">
+                <div class="form-group">
+                    <label for="notification-title">Título:</label>
+                    <input type="text" id="notification-title" required>
+                </div>
+                <div class="form-group">
+                    <label for="notification-desc">Descripción:</label>
+                    <textarea id="notification-desc" rows="4" required></textarea>
+                </div>
+                <button type="submit">Enviar Notificación a todos los Usuarios</button>
+            </form>
+            <h2>Notificaciones Enviadas</h2>
+            <ul id="sent-notifications-list">
+                </ul>
+        </main>
+    </div>
 </body>
+<script type="module" src="script.js"></script>
 </html>
