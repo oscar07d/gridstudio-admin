@@ -14,7 +14,7 @@ const firebaseConfig = {
 };
 
 // --- ID DE USUARIO ADMINISTRADOR (YA INSERTADO) ---
-const ADMIN_UID = "w7VT3eANXZNswsQi2xoiM2r7bJh2";
+const ADMIN_UID = "w7VT3eANXZNswsQi2xoiM2r7bJh2", "q8ZHZaTN7ZfvQYJxRgBgI2v3cU22";
 
 // --- Inicialización ---
 const app = initializeApp(firebaseConfig);
@@ -33,18 +33,26 @@ const sentNotificationsList = document.getElementById('sent-notifications-list')
 // --- Lógica de Autenticación y Seguridad ---
 onAuthStateChanged(auth, (user) => {
     if (user) {
-        // Si el UID del usuario NO es el del admin, bloquea el acceso.
-        if (user.uid !== ADMIN_UID) {
+        // Mensajes de depuración para la consola
+        console.log("Usuario logueado:", user.displayName);
+        console.log("UID del usuario actual:", user.uid);
+        console.log("Lista de UIDs de admin:", ADMIN_UIDS);
+
+        // Comprueba si el UID del usuario actual está en la lista de administradores
+        if (ADMIN_UIDS.includes(user.uid)) {
+            // Si es admin, muestra el panel.
+            console.log("Acceso Permitido.");
+            loginContainer.style.display = 'none';
+            adminPanel.style.display = 'block';
+            loadSentNotifications();
+        } else {
+            // Si NO es admin, bloquea el acceso.
+            console.error("Acceso Denegado. El UID del usuario no está en la lista de administradores.");
             loginContainer.innerHTML = '<h1>Acceso Denegado</h1><p>No tienes permiso para acceder a este panel.</p>';
             loginContainer.style.display = 'block';
             adminPanel.style.display = 'none';
             signOut(auth); // Cierra la sesión
-            return;
         }
-        // Si es el admin, muestra el panel.
-        loginContainer.style.display = 'none';
-        adminPanel.style.display = 'block';
-        loadSentNotifications();
     } else {
         loginContainer.style.display = 'block';
         adminPanel.style.display = 'none';
@@ -87,3 +95,4 @@ function loadSentNotifications() {
         });
     });
 }
+
