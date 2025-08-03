@@ -1,8 +1,8 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, initializeAuth, indexedDBLocalPersistence } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
 import { getFirestore, collection, addDoc, serverTimestamp, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
 
-// --- Your Firebase Config ---
+// --- TU CONFIGURACIÓN DE FIREBASE ---
 const firebaseConfig = {
     apiKey: "AIzaSyABKvAAUxoyzvcjCXaSbwZzT0RCI32-vRQ",
     authDomain: "facturadorweb-5125f.firebaseapp.com",
@@ -13,20 +13,16 @@ const firebaseConfig = {
     measurementId: "G-ETGNS3KCVP"
 };
 
-// --- Admin User IDs ---
+// --- ID DE USUARIO ADMINISTRADOR ---
 const ADMIN_UIDS = ["w7VT3eANXZNswsQi2xoiM2r7bJh2", "q8ZHZaTN7ZfvQYJxRgBgI2v3cU22"];
 
-// --- Initialization ---
+// --- INICIALIZACIÓN ---
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(app); // Usamos getAuth estándar
 const googleProvider = new GoogleAuthProvider();
 
-// Create a separate, independent auth instance for the admin panel
-const adminAuth = initializeAuth(app, {
-  persistence: indexedDBLocalPersistence
-});
-
-// --- DOM Elements ---
+// --- ELEMENTOS DEL DOM ---
 const loginContainer = document.getElementById('login-container');
 const adminPanel = document.getElementById('admin-panel');
 const loginButton = document.getElementById('loginButton');
@@ -34,16 +30,16 @@ const logoutButton = document.getElementById('logoutButton');
 const notificationForm = document.getElementById('notification-form');
 const sentNotificationsList = document.getElementById('sent-notifications-list');
 
-// --- Auth Logic (using the independent 'adminAuth' instance) ---
-onAuthStateChanged(adminAuth, (user) => {
+// --- LÓGICA DE AUTENTICACIÓN Y SEGURIDAD ---
+onAuthStateChanged(auth, (user) => {
     if (user) {
         if (ADMIN_UIDS.includes(user.uid)) {
             loginContainer.style.display = 'none';
             adminPanel.style.display = 'block';
             loadSentNotifications();
         } else {
-            loginContainer.innerHTML = '<h1>Access Denied</h1><p>You do not have permission to access this panel.</p>';
-            signOut(adminAuth);
+            loginContainer.innerHTML = '<h1>Acceso Denegado</h1><p>No tienes permiso para acceder a este panel.</p>';
+            signOut(auth);
         }
     } else {
         loginContainer.style.display = 'block';
@@ -52,14 +48,11 @@ onAuthStateChanged(adminAuth, (user) => {
 });
 
 loginButton.addEventListener('click', () => {
-    signInWithPopup(adminAuth, googleProvider);
+    signInWithPopup(auth, googleProvider).catch(error => console.error("Error en signInWithPopup:", error));
 });
+logoutButton.addEventListener('click', () => signOut(auth));
 
-logoutButton.addEventListener('click', () => {
-    signOut(adminAuth);
-});
-
-// --- Notification Logic ---
+// --- LÓGICA PARA ENVIAR Y MOSTRAR NOTIFICACIONES ---
 notificationForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const title = document.getElementById('notification-title').value;
@@ -78,7 +71,7 @@ notificationForm.addEventListener('submit', async (e) => {
         });
         notificationForm.reset();
     } catch (error) {
-        console.error("Error sending notification:", error);
+        console.error("Error al enviar notificación:", error);
     }
 });
 
@@ -89,7 +82,7 @@ function loadSentNotifications() {
         querySnapshot.forEach((doc) => {
             const notif = doc.data();
             const li = document.createElement('li');
-            const date = notif.createdAt?.toDate().toLocaleString('es-CO') || 'Sending...';
+            const date = notif.createdAt?.toDate().toLocaleString('es-CO') || 'Enviando...';
             li.innerHTML = `<strong>${notif.title}</strong><p>${notif.description}</p><small>${date}</small>`;
             sentNotificationsList.appendChild(li);
         });
