@@ -9,7 +9,8 @@ const firebaseConfig = {
     projectId: "facturadorweb-5125f",
     storageBucket: "facturadorweb-5125f.firebasestorage.app",
     messagingSenderId: "622762316446",
-    appId: "1:622762316446:web:1625bc78893e674188a18f"
+    appId: "1:622762316446:web:1625bc78893e674188a18f",
+    measurementId: "G-ETGNS3KCVP" // <-- THIS LINE WAS MISSING
 };
 
 // --- ID DE USUARIO ADMINISTRADOR ---
@@ -104,3 +105,4 @@ try {
     console.error("Error fatal al inicializar el script:", error);
     document.body.innerHTML = `<div style="color: red; padding: 20px;"><h1>Error Crítico</h1><p>La aplicación no pudo iniciarse. Revisa la consola para más detalles.</p><pre>${error.message}</pre></div>`;
 }
+
