@@ -130,22 +130,35 @@ function loadSentNotifications() {
 function loadSentUpdates() {
     const q = query(collection(db, "system_updates"), orderBy("createdAt", "desc"));
     onSnapshot(q, (snapshot) => {
-        sentUpdatesList.innerHTML = '';
+        const sentUpdatesList = document.getElementById('sent-updates-list');
+        sentUpdatesList.innerHTML = ''; // Limpia la lista antes de volver a dibujarla
+        
         snapshot.forEach((docSnap) => {
             const update = docSnap.data();
             const li = document.createElement('li');
-            li.innerHTML = `...`; // (tu innerHTML existente)
             
+            const date = update.createdAt?.toDate().toLocaleString('es-CO') || 'Publicado recientemente';
+
+            // Construye el HTML interno del elemento de la lista
+            li.innerHTML = `
+                <strong>${update.title || '(Sin título)'}</strong>
+                <p>${(update.content || '(Sin contenido)').replace(/\n/g, '<br>')}</p>
+                <small>${date}</small>
+            `;
+            
+            // Crea y añade el botón de eliminar
             const deleteBtn = document.createElement('button');
             deleteBtn.className = 'delete-btn';
             deleteBtn.textContent = 'Eliminar';
             deleteBtn.onclick = async () => {
-                if (confirm(`¿Seguro que quieres eliminar la novedad "${update.title}"?`)) {
+                if (confirm(`¿Estás seguro de que deseas eliminar la novedad "${update.title}"?`)) {
                     await deleteDoc(doc(db, "system_updates", docSnap.id));
                 }
             };
-            li.prepend(deleteBtn); // Añade el botón al principio del <li>
-            sentUpdatesList.appendChild(li);
+
+            li.appendChild(deleteBtn); // Añade el botón al final del <li>
+            sentUpdatesList.appendChild(li); // Añade el <li> completo a la lista <ul>
         });
     });
 }
+
