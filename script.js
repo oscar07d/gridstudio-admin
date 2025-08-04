@@ -150,25 +150,36 @@ function loadSentNotifications() {
 
 // --- LÓGICA PARA MOSTRAR NOVEDADES (ACTUALIZADA CON BOTÓN DE ELIMINAR) ---
 function loadSentUpdates() {
+    console.log("--- INICIANDO DIAGNÓSTICO: loadSentUpdates ---");
+    const sentUpdatesList = document.getElementById('sent-updates-list');
     const q = query(collection(db, "system_updates"), orderBy("createdAt", "desc"));
+    
     onSnapshot(q, (snapshot) => {
-        const sentUpdatesList = document.getElementById('sent-updates-list');
-        sentUpdatesList.innerHTML = ''; // Limpia la lista antes de volver a dibujarla
+        console.log(`Firestore devolvió ${snapshot.size} novedades.`);
+        sentUpdatesList.innerHTML = '';
         
+        if (snapshot.empty) {
+            console.log("La colección 'system_updates' está vacía.");
+            sentUpdatesList.innerHTML = '<li>Aún no has publicado ninguna novedad.</li>';
+        }
+
         snapshot.forEach((docSnap) => {
             const update = docSnap.data();
-            const li = document.createElement('li');
-            
-            const date = update.createdAt?.toDate().toLocaleString('es-CO') || 'Publicado recientemente';
+            console.log("Procesando novedad:", update); // Muestra el objeto completo
 
-            // Construye el HTML interno del elemento de la lista
-            li.innerHTML = `
+            const li = document.createElement('li');
+            const date = update.createdAt?.toDate().toLocaleString('es-CO') || 'Fecha no disponible';
+            
+            const htmlContent = `
                 <strong>${update.title || '(Sin título)'}</strong>
                 <p>${(update.content || '(Sin contenido)').replace(/\n/g, '<br>')}</p>
                 <small>${date}</small>
             `;
+            console.log("HTML a insertar:", htmlContent); // Muestra el HTML que se va a crear
             
-            // Crea y añade el botón de eliminar
+            li.innerHTML = htmlContent;
+            
+            // Lógica para el botón de eliminar
             const deleteBtn = document.createElement('button');
             deleteBtn.className = 'delete-btn';
             deleteBtn.textContent = 'Eliminar';
@@ -178,10 +189,13 @@ function loadSentUpdates() {
                 }
             };
 
-            li.appendChild(deleteBtn); // Añade el botón al final del <li>
-            sentUpdatesList.appendChild(li); // Añade el <li> completo a la lista <ul>
+            li.appendChild(deleteBtn);
+            sentUpdatesList.appendChild(li);
         });
+    }, (error) => {
+        console.error("¡ERROR DE FIREBASE AL ESCUCHAR CAMBIOS! Revisa tus reglas de seguridad.", error);
     });
 }
+
 
 
