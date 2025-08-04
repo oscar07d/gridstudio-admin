@@ -1,42 +1,55 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Notificaciones</title>
-    <link rel="icon" href="favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="style.css">
-</head>
 <body>
     <div id="login-container">
         <h1>Panel de Administrador</h1>
-        <p>Inicia sesión para enviar notificaciones</p>
+        <p>Inicia sesión para continuar</p>
         <button id="loginButton">Iniciar Sesión con Google</button>
     </div>
 
     <div id="admin-panel" style="display: none;">
         <header>
-            <h1>Enviar Notificación del Sistema</h1>
+            <h1>Panel de Control</h1>
             <button id="logoutButton">Cerrar Sesión</button>
         </header>
         <main>
-            <form id="notification-form">
-                <div class="form-group">
-                    <label for="notification-title">Título:</label>
-                    <input type="text" id="notification-title" required>
-                </div>
-                <div class="form-group">
-                    <label for="notification-desc">Descripción:</label>
-                    <textarea id="notification-desc" rows="4" required></textarea>
-                </div>
-                <button type="submit">Enviar Notificación a todos los Usuarios</button>
-            </form>
-            <h2>Notificaciones Enviadas</h2>
-            <ul id="sent-notifications-list">
-                </ul>
+            <div class="admin-tabs">
+                <button class="tab-button active" data-tab="novedades">Publicar Novedad</button>
+                <button class="tab-button" data-tab="notificaciones">Enviar Notificación</button>
+            </div>
+
+            <div id="tab-novedades" class="tab-pane active">
+                <form id="update-form">
+                    <h2>Crear Nueva Novedad (para la página de Actualizaciones)</h2>
+                    <div class="form-group">
+                        <label for="update-title">Título:</label>
+                        <input type="text" id="update-title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="update-content">Contenido:</label>
+                        <textarea id="update-content" rows="6" required></textarea>
+                    </div>
+                    <button type="submit">Publicar Novedad</button>
+                </form>
+                <h2>Novedades Publicadas</h2>
+                <ul id="sent-updates-list"></ul>
+            </div>
+
+            <div id="tab-notificaciones" class="tab-pane">
+                <form id="notification-form">
+                    <h2>Enviar Notificación Rápida (para el modal)</h2>
+                    <div class="form-group">
+                        <label for="notification-title">Título:</label>
+                        <input type="text" id="notification-title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="notification-desc">Descripción:</label>
+                        <textarea id="notification-desc" rows="4" required></textarea>
+                    </div>
+                    <button type="submit">Enviar Notificación</button>
+                </form>
+                <h2>Notificaciones Enviadas</h2>
+                <ul id="sent-notifications-list"></ul>
+            </div>
         </main>
     </div>
 </body>
 <script type="module" src="script.js"></script>
-</html>
-
