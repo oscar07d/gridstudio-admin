@@ -1,219 +1,531 @@
-/* ============================== */
-/* == PALETA & FUENTES GLOBALES == */
-/* ============================== */
+/* ============================================= */
+/* === ESTILOS PARA EL PANEL DE ADMINISTRADOR === */
+/* ============================================= */
+
+/* 1. FUENTES Y VARIABLES (Igual que la App Principal)
+/* ============================================= */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
 :root {
-  --primary-color: #42a8a1;
-  --background: rgba(18, 18, 18, 0.75);
-  --card-bg: rgba(28, 28, 30, 0.6);
-  --text-color: #f2f2f2;
-  --border-color: rgba(255, 255, 255, 0.1);
-  --radius: 1.25rem;
-  --shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-  --font-family: 'SF Pro Display', 'Inter', sans-serif;
+    --primary-color: #007bff;
+    --primary-hover-color: #0056b3;
+    --background-color: #f5f7fa;
+    --container-background: #ffffff;
+    --text-color: #212529;
+    --text-muted-color: #6c757d;
+    --danger-color: #dc3545;
+    --border-color: #dee2e6;
+    --border-radius-m: 15px;
+
+
+
+
+
+
+
+
 }
 
-/* ===================== */
-/* == RESETEO GENERAL == */
-/* ===================== */
-* {
+/* 2. ESTILOS GLOBALES
+/* ============================================= */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* 3. CONTENEDORES PRINCIPALES
+/* ============================================= */
+#login-container, #admin-panel {
+    background: var(--container-background);
+    padding: 30px 40px;
+    border-radius: var(--border-radius-m);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 600px;
+    width: 100%;
+    border-top: 4px solid var(--primary-color);
+}
+
+
+
+
+
+#admin-panel {
+    text-align: left;
+
+
+
+
+
+
+
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+}
+
+h1 { font-size: 1.8rem; color: var(--text-color); }
+h2 { font-size: 1.3rem; margin-bottom: 15px; color: var(--primary-color); }
+p { color: var(--text-muted-color); }
+
+
+
+
+
+
+/* 4. PESTAÑAS
+/* ============================================= */
+.admin-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 25px;
+}
+.tab-button {
+    padding: 10px 20px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-muted-color);
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s ease;
+}
+.tab-button.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+}
+.tab-pane {
+    display: none;
+}
+.tab-pane.active {
+    display: block;
+}
+
+/* 5. FORMULARIOS Y BOTONES
+/* ============================================= */
+.form-group {
+    margin-bottom: 20px;
+}
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--text-muted-color);
+    font-size: 0.9rem;
+}
+input, textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
+button {
+    background: var(--primary-color);
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+button:hover {
+    background: var(--primary-hover-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2);
+}
+
+#logoutButton {
+    background: var(--danger-color);
+    padding: 8px 15px;
+    font-size: 0.9rem;
+    box-shadow: none;
+}
+#logoutButton:hover {
+    background-color: #c82333;
+    transform: none;
+}
+
+/* 6. LISTA DE ELEMENTOS ENVIADOS
+/* ============================================= */
+#sent-updates-list,
+#sent-notifications-list {
+    list-style: none;
+    padding: 0;
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+}
+#sent-updates-list li,
+#sent-notifications-list li {
+    background: #fdfdfd;
+    padding: 15px;
+    border-bottom: 1px solid var(--border-color);
+    position: relative;
+}
+#sent-updates-list li:last-child,
+#sent-notifications-list li:last-child {
+    border-bottom: none;
+}
+#sent-updates-list li strong,
+#sent-notifications-list li strong {
+    display: block;
+    color: var(--text-color);
+}
+#sent-updates-list li p,
+#sent-notifications-list li p {
+    margin: 4px 0;
+    color: var(--text-muted-color);
+}
+#sent-updates-list li small,
+#sent-notifications-list li small {
+    font-size: 0.8rem;
+    color: #999;
+}
+.delete-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #ff4d4d;
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    border-radius: 5px;
+}
+.delete-btn:hover {
+    background-color: #e60000;
+    transform: none;
+    box-shadow: none;
+}/* ============================================= */
+/* === ESTILOS PARA EL PANEL DE ADMINISTRADOR === */
+/* ============================================= */
+
+/* 1. FUENTES Y VARIABLES (Igual que la App Principal)
+/* ============================================= */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --primary-color: #007bff;
+  --primary-hover-color: #0056b3;
+  --background-color: #f5f7fa;
+  --container-background: #ffffff;
+  --text-color: #212529;
+  --text-muted-color: #6c757d;
+  --danger-color: #dc3545;
+  --border-color: #dee2e6;
+  --border-radius-m: 15px;
+}
+
+/* 2. ESTILOS GLOBALES
+/* ============================================= */
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
   margin: 0;
-  padding: 0;
+  padding: 20px;
   box-sizing: border-box;
 }
 
-body {
-  background: linear-gradient(145deg, #111, #1f1f1f);
-  color: var(--text-color);
-  font-family: var(--font-family);
-  line-height: 1.5;
-  padding: 1rem;
-  min-height: 100vh;
-}
-
-/* Scroll elegante */
-::-webkit-scrollbar {
-  width: 8px;
-}
-::-webkit-scrollbar-thumb {
-  background: var(--primary-color);
-  border-radius: 4px;
-}
-
-/* =================== */
-/* == LOGIN & PANEL == */
-/* =================== */
+/* 3. CONTENEDORES PRINCIPALES
+/* ============================================= */
 #login-container,
 #admin-panel {
-  background: var(--card-bg);
-  backdrop-filter: blur(16px);
-  border-radius: var(--radius);
-  padding: 2rem;
-  box-shadow: var(--shadow);
-  max-width: 900px;
-  margin: auto;
-  animation: fadeIn 0.4s ease;
-}
-
-/* Responsive ajustes */
-@media (max-width: 768px) {
-  #login-container,
-  #admin-panel {
-    padding: 1rem;
-  }
-}
-
-/* ===================== */
-/* == TÍTULOS Y TABS == */
-/* ===================== */
-h1, h2 {
+  background: var(--container-background);
+  padding: 30px 40px;
+  border-radius: var(--border-radius-m);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
   text-align: center;
-  margin-bottom: 1.5rem;
-  font-weight: 600;
+  max-width: 600px;
+  width: 100%;
+  border-top: 4px solid var(--primary-color);
 }
 
+#admin-panel {
+  text-align: left;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 15px;
+  margin-bottom: 25px;
+}
+
+h1 {
+  font-size: 1.8rem;
+  color: var(--text-color);
+}
+
+h2 {
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  color: var(--primary-color);
+}
+
+p {
+  color: var(--text-muted-color);
+}
+
+/* 4. PESTAÑAS
+/* ============================================= */
 .admin-tabs {
   display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin-bottom: 2rem;
-  flex-wrap: wrap;
-  overflow-x: auto;
-  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 25px;
 }
 
 .tab-button {
-  background: transparent;
-  border: 1px solid var(--border-color);
-  padding: 0.6rem 1.2rem;
-  border-radius: 999px;
-  color: var(--text-color);
+  padding: 10px 20px;
+  border: none;
+  background: none;
   cursor: pointer;
-  transition: 0.3s;
-}
-.tab-button.active,
-.tab-button:hover {
-  background: var(--primary-color);
-  color: #000;
-  border-color: var(--primary-color);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-muted-color);
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s ease;
 }
 
-/* ================== */
-/* == FORMULARIOS == */
-/* ================== */
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+.tab-button.active {
+  color: var(--primary-color);
+  border-bottom-color: var(--primary-color);
+}
+
+.tab-pane {
+  display: none;
+}
+
+.tab-pane.active {
+  display: block;
+}
+
+/* 5. FORMULARIOS Y BOTONES
+/* ============================================= */
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: var(--text-muted-color);
+  font-size: 0.9rem;
 }
 
 input,
 textarea {
-  background: rgba(255, 255, 255, 0.05);
+  width: 100%;
+  padding: 12px 15px;
   border: 1px solid var(--border-color);
-  padding: 0.8rem 1rem;
-  color: var(--text-color);
-  border-radius: 0.75rem;
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
   font-size: 1rem;
-  transition: border 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 input:focus,
 textarea:focus {
   outline: none;
   border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
 }
 
 button {
   background: var(--primary-color);
+  color: white;
+  padding: 12px 20px;
   border: none;
-  padding: 0.8rem 1.2rem;
-  color: #000;
-  border-radius: 0.75rem;
+  border-radius: 50px;
   cursor: pointer;
-  font-weight: 600;
-  transition: background 0.3s ease;
-}
-button:hover {
-  background: #2e817b;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
 }
 
-/* =============================== */
-/* == SECCIONES DE LISTAS/ENVÍOS == */
-/* =============================== */
+button:hover {
+  background: var(--primary-hover-color);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2);
+}
+
+#logoutButton {
+  background: var(--danger-color);
+  padding: 8px 15px;
+  font-size: 0.9rem;
+  box-shadow: none;
+}
+
+#logoutButton:hover {
+  background-color: #c82333;
+  transform: none;
+}
+
+/* 6. LISTA DE ELEMENTOS ENVIADOS
+/* ============================================= */
 #sent-updates-list,
 #sent-notifications-list {
+  list-style: none;
+  padding: 0;
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+
+#sent-updates-list li,
+#sent-notifications-list li {
+  background: #fdfdfd;
+  padding: 15px;
+  border-bottom: 1px solid var(--border-color);
+  position: relative;
+}
+
+#sent-updates-list li:last-child,
+#sent-notifications-list li:last-child {
+  border-bottom: none;
+}
+
+#sent-updates-list li strong,
+#sent-notifications-list li strong {
+  display: block;
+  color: var(--text-color);
+}
+
+#sent-updates-list li p,
+#sent-notifications-list li p {
+  margin: 4px 0;
+  color: var(--text-muted-color);
+}
+
+#sent-updates-list li small,
+#sent-notifications-list li small {
+  font-size: 0.8rem;
+  color: #999;
+}
+
+.delete-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #ff4d4d;
+  padding: 5px 10px;
+  font-size: 0.8rem;
+  border-radius: 5px;
+}
+
+.delete-btn:hover {
+  background-color: #e60000;
+  transform: none;
+  box-shadow: none;
+}
+
+
+/* ============================================= */
+/* === ESTILOS MEJORADOS PARA OPCIONES DE VISIBILIDAD === */
+/* ============================================= */
+
+.visibility-options {
+  display: block !important;
+  visibility: visible !important;
+  border: 1px solid var(--border-color);
+  padding: 15px 20px;
+  border-radius: var(--border-radius-m);
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background-color: #f8f9fa;
+}
+
+.visibility-options legend {
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0 10px;
+  color: var(--text-muted-color);
+}
+
+.visibility-options .radio-group {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  margin-top: 2rem;
+  /* Apila las opciones verticalmente */
+  gap: 12px;
+  /* Espacio entre cada opción */
+  margin-bottom: 15px;
 }
 
-.update-item,
-.notification-item {
-  background: rgba(255, 255, 255, 0.05);
-  padding: 1rem;
-  border-radius: 0.75rem;
-  border-left: 4px solid var(--primary-color);
-  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+/* Estilo para cada fila (radio + texto) */
+.visibility-options label {
+  display: flex;
+  /* ¡LA CLAVE! Usa Flexbox */
+  align-items: center;
+  /* Centra el radio y el texto verticalmente */
+  cursor: pointer;
+  font-size: 0.95rem;
 }
 
-/* ================================ */
-/* == OPCIONES DE VISIBILIDAD == */
-/* ================================ */
-.visibility-options {
-  background: rgba(255, 255, 255, 0.05);
-  padding: 1rem;
-  border-radius: 0.75rem;
+/* Estilo para el botón de radio */
+.visibility-options input[type="radio"] {
+  margin-right: 10px;
+  /* Espacio entre el radio y el texto */
+  width: 18px;
+  height: 18px;
+  accent-color: var(--primary-color);
+  /* Cambia el color del punto a azul */
+}
+
+/* Estilo para el campo de fecha y hora */
+.flatpickr-input {
+  width: 100%;
+  padding: 12px 15px;
   border: 1px solid var(--border-color);
-}
-
-label {
-  display: block;
-  margin-bottom: 0.4rem;
-  font-weight: 500;
-}
-
-/* Flatpickr DateTime */
-input[type="datetime-local"],
-input[type="text"] {
-  appearance: none;
-  -webkit-appearance: none;
-}
-
-/* ===================== */
-/* == RESPONSIVE EXTRA == */
-/* ===================== */
-@media (max-width: 600px) {
-  h1, h2 {
-    font-size: 1.5rem;
-  }
-
-  .admin-tabs {
-    gap: 0.5rem;
-  }
-
-  input,
-  textarea,
-  button {
-    font-size: 0.95rem;
-  }
-
-  .update-item,
-  .notification-item {
-    padding: 0.75rem;
-  }
-}
-
-/* ================= */
-/* == ANIMACIONES == */
-/* ================= */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  margin-top: 5px;
 }
