@@ -144,3 +144,33 @@ button:hover {
     font-size: 0.8rem;
     color: #999;
 }
+
+
+
+/* === NUEVOS ESTILOS PARA PESTAÑAS === */
+.admin-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 25px;
+}
+.tab-button {
+    padding: 10px 20px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-muted-color);
+    border-bottom: 3px solid transparent;
+}
+.tab-button.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+}
+.tab-pane {
+    display: none; /* Oculto por defecto */
+}
+.tab-pane.active {
+    display: block; /* Visible cuando está activo */
+}
+
