@@ -103,13 +103,20 @@ updateForm.addEventListener('submit', async (e) => {
 // --- LÓGICA PARA NOTIFICACIONES (system_notifications) ---
 notificationForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const title = document.getElementById('notification-title').value;
-    const description = document.getElementById('notification-desc').value;
+    const title = document.getElementById('notification-title-input').value;
+    const description = document.getElementById('notification-desc-input').value;
+
     try {
-        await addDoc(collection(db, "system_notifications"), { title, description, createdAt: serverTimestamp() });
+        await addDoc(collection(db, "system_notifications"), {
+            title: title,
+            description: description,
+            createdAt: serverTimestamp()
+        });
         notificationForm.reset();
         alert("¡Notificación enviada!");
-    } catch (error) { console.error("Error al enviar notificación:", error); }
+    } catch (error) {
+        console.error("Error al enviar notificación:", error);
+    }
 });
 
 function loadSentNotifications() {
@@ -196,6 +203,7 @@ function loadSentUpdates() {
         console.error("¡ERROR DE FIREBASE AL ESCUCHAR CAMBIOS! Revisa tus reglas de seguridad.", error);
     });
 }
+
 
 
 
