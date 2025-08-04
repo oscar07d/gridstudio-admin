@@ -174,3 +174,34 @@ button:hover {
     display: block; /* Visible cuando está activo */
 }
 
+
+.visibility-options {
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 15px;
+}
+
+.visibility-options legend {
+  font-weight: bold;
+  padding: 0 5px;
+}
+
+.visibility-options label {
+  margin-right: 15px;
+}
+
+.flatpickr-input {
+  margin-top: 10px;
+}
+
+.delete-btn {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  font-size: 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  float: right;
+}
