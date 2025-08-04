@@ -115,13 +115,35 @@ notificationForm.addEventListener('submit', async (e) => {
 function loadSentNotifications() {
     const q = query(collection(db, "system_notifications"), orderBy("createdAt", "desc"));
     onSnapshot(q, (snapshot) => {
-        sentNotificationsList.innerHTML = '';
-        snapshot.forEach((doc) => {
-            const notif = doc.data();
+        const sentNotificationsList = document.getElementById('sent-notifications-list');
+        sentNotificationsList.innerHTML = ''; // Limpia la lista antes de volver a dibujarla
+
+        snapshot.forEach((docSnap) => {
+            const notif = docSnap.data();
             const li = document.createElement('li');
-            const date = notif.createdAt?.toDate().toLocaleString('es-CO') || '';
-            li.innerHTML = `<strong>${notif.title}</strong><p>${notif.description}</p><small>${date}</small>`;
-            sentNotificationsList.appendChild(li);
+            
+            const date = notif.createdAt?.toDate().toLocaleString('es-CO') || 'Enviando...';
+
+            // Construye el HTML interno del elemento de la lista
+            li.innerHTML = `
+                <strong>${notif.title || '(Sin título)'}</strong>
+                <p>${notif.description || '(Sin contenido)'}</p>
+                <small>${date}</small>
+            `;
+            
+            // --- CÓDIGO AÑADIDO ---
+            // Crea y añade el botón de eliminar
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'delete-btn';
+            deleteBtn.textContent = 'Eliminar';
+            deleteBtn.onclick = async () => {
+                if (confirm(`¿Estás seguro de que deseas eliminar la notificación "${notif.title}"?`)) {
+                    await deleteDoc(doc(db, "system_notifications", docSnap.id));
+                }
+            };
+
+            li.appendChild(deleteBtn); // Añade el botón al final del <li>
+            sentNotificationsList.appendChild(li); // Añade el <li> completo a la lista <ul>
         });
     });
 }
@@ -161,4 +183,5 @@ function loadSentUpdates() {
         });
     });
 }
+
 
