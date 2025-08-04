@@ -36,11 +36,11 @@ body {
 /* ============================================= */
 #login-container, #admin-panel {
     background: var(--container-background);
-    padding: 40px;
+    padding: 30px 40px;
     border-radius: var(--border-radius-m);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
     text-align: center;
-    max-width: 500px;
+    max-width: 600px;
     width: 100%;
     border-top: 4px solid var(--primary-color);
 }
@@ -58,15 +58,40 @@ header {
     margin-bottom: 25px;
 }
 
-h1, h2 {
-    color: var(--text-color);
-}
-
-h1 { font-size: 1.8rem; }
+h1 { font-size: 1.8rem; color: var(--text-color); }
 h2 { font-size: 1.3rem; margin-bottom: 15px; color: var(--primary-color); }
 p { color: var(--text-muted-color); }
 
-/* 4. FORMULARIO Y BOTONES
+/* 4. PESTAÑAS
+/* ============================================= */
+.admin-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 25px;
+}
+.tab-button {
+    padding: 10px 20px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-muted-color);
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s ease;
+}
+.tab-button.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+}
+.tab-pane {
+    display: none;
+}
+.tab-pane.active {
+    display: block;
+}
+
+/* 5. FORMULARIOS Y BOTONES
 /* ============================================= */
 .form-group {
     margin-bottom: 20px;
@@ -103,105 +128,73 @@ button {
     cursor: pointer;
     font-size: 1rem;
     font-weight: 500;
-    transition: background-color 0.2s ease;
+    transition: all 0.2s ease;
 }
 button:hover {
     background: var(--primary-hover-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2);
 }
 
 #logoutButton {
     background: var(--danger-color);
     padding: 8px 15px;
     font-size: 0.9rem;
+    box-shadow: none;
+}
+#logoutButton:hover {
+    background-color: #c82333;
+    transform: none;
 }
 
-/* 5. LISTA DE NOTIFICACIONES ENVIADAS
+/* 6. LISTA DE ELEMENTOS ENVIADOS
 /* ============================================= */
+#sent-updates-list,
 #sent-notifications-list {
     list-style: none;
     padding: 0;
     max-height: 300px;
     overflow-y: auto;
-    border-top: 1px solid var(--border-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
 }
+#sent-updates-list li,
 #sent-notifications-list li {
-    background: #f8f9fa;
+    background: #fdfdfd;
     padding: 15px;
     border-bottom: 1px solid var(--border-color);
+    position: relative;
 }
+#sent-updates-list li:last-child,
 #sent-notifications-list li:last-child {
     border-bottom: none;
 }
+#sent-updates-list li strong,
 #sent-notifications-list li strong {
     display: block;
     color: var(--text-color);
 }
+#sent-updates-list li p,
 #sent-notifications-list li p {
     margin: 4px 0;
     color: var(--text-muted-color);
 }
+#sent-updates-list li small,
 #sent-notifications-list li small {
     font-size: 0.8rem;
     color: #999;
 }
-
-
-
-/* === NUEVOS ESTILOS PARA PESTAÑAS === */
-.admin-tabs {
-    display: flex;
-    border-bottom: 1px solid var(--border-color);
-    margin-bottom: 25px;
-}
-.tab-button {
-    padding: 10px 20px;
-    border: none;
-    background: none;
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: 500;
-    color: var(--text-muted-color);
-    border-bottom: 3px solid transparent;
-}
-.tab-button.active {
-    color: var(--primary-color);
-    border-bottom-color: var(--primary-color);
-}
-.tab-pane {
-    display: none; /* Oculto por defecto */
-}
-.tab-pane.active {
-    display: block; /* Visible cuando está activo */
-}
-
-
-.visibility-options {
-  border: 1px solid #ddd;
-  padding: 15px;
-  border-radius: 8px;
-  margin-top: 15px;
-}
-
-.visibility-options legend {
-  font-weight: bold;
-  padding: 0 5px;
-}
-
-.visibility-options label {
-  margin-right: 15px;
-}
-
-.flatpickr-input {
-  margin-top: 10px;
-}
-
 .delete-btn {
-  background-color: #ff4d4d;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  font-size: 0.8rem;
-  border-radius: 4px;
-  cursor: pointer;
-  float: right;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #ff4d4d;
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    border-radius: 5px;
+}
+.delete-btn:hover {
+    background-color: #e60000;
+    transform: none;
+    box-shadow: none;
 }
