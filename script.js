@@ -66,18 +66,18 @@ function setupTabs() {
 }
 
 function initializeVisibilityOptions() {
-    // Para el formulario de Novedades
     flatpickr("#update-expires-at", { enableTime: true, dateFormat: "Y-m-d H:i" });
     document.querySelectorAll('input[name="update-visibility"]').forEach(radio => {
         radio.addEventListener('change', (e) => {
-            document.getElementById('update-expires-at').disabled = (e.target.value !== 'expires');
+            document.getElementById('update-expires-at').style.display = (e.target.value === 'expires') ? 'block' : 'none';
         });
     });
-    // Para el formulario de Notificaciones
+
     flatpickr("#notif-expires-at", { enableTime: true, dateFormat: "Y-m-d H:i" });
     document.querySelectorAll('input[name="notif-visibility"]').forEach(radio => {
         radio.addEventListener('change', (e) => {
-            document.getElementById('notif-expires-at').disabled = (e.target.value !== 'expires');
+            // THE CORRECTION IS HERE:
+            document.getElementById('notif-expires-at').style.display = (e.target.value === 'expires') ? 'block' : 'none';
         });
     });
 }
@@ -203,6 +203,7 @@ function loadSentUpdates() {
         console.error("¡ERROR DE FIREBASE AL ESCUCHAR CAMBIOS! Revisa tus reglas de seguridad.", error);
     });
 }
+
 
 
 
