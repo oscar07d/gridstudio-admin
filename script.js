@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
-import { getFirestore, collection, addDoc, serverTimestamp, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
+import { getFirestore, collection, addDoc, serverTimestamp, query, orderBy, onSnapshot, doc, deleteDoc, Timestamp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
 
 // --- TU CONFIGURACIÓN DE FIREBASE ---
 const firebaseConfig = {
@@ -40,6 +40,7 @@ onAuthStateChanged(auth, (user) => {
         loadSentUpdates();
         loadSentNotifications();
         setupTabs(); // Llama a la función para activar las pestañas
+        initializeVisibilityOptions();
     } else {
         loginContainer.style.display = 'block';
         adminPanel.style.display = 'none';
@@ -64,31 +65,40 @@ function setupTabs() {
     });
 }
 
-// --- LÓGICA PARA NOVEDADES (system_updates) ---
+function initializeVisibilityOptions() {
+    // Para el formulario de Novedades
+    flatpickr("#update-expires-at", { enableTime: true, dateFormat: "Y-m-d H:i" });
+    document.querySelectorAll('input[name="update-visibility"]').forEach(radio => {
+        radio.addEventListener('change', (e) => {
+            document.getElementById('update-expires-at').disabled = (e.target.value !== 'expires');
+        });
+    });
+    // Para el formulario de Notificaciones
+    flatpickr("#notif-expires-at", { enableTime: true, dateFormat: "Y-m-d H:i" });
+    document.querySelectorAll('input[name="notif-visibility"]').forEach(radio => {
+        radio.addEventListener('change', (e) => {
+            document.getElementById('notif-expires-at').disabled = (e.target.value !== 'expires');
+        });
+    });
+}
+
+// --- LÓGICA PARA ENVIAR NOVEDADES (ACTUALIZADA) ---
 updateForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const title = document.getElementById('update-title').value;
     const content = document.getElementById('update-content').value;
+    
+    // Obtener opciones de visibilidad
+    const visibility = document.querySelector('input[name="update-visibility"]:checked').value;
+    const expiresAtInput = document.getElementById('update-expires-at').value;
+    const expiresAt = (visibility === 'expires' && expiresAtInput) ? Timestamp.fromDate(new Date(expiresAtInput)) : null;
+
     try {
-        await addDoc(collection(db, "system_updates"), { title, content, createdAt: serverTimestamp() });
+        await addDoc(collection(db, "system_updates"), { title, content, createdAt: serverTimestamp(), expiresAt });
         updateForm.reset();
         alert("¡Novedad publicada!");
     } catch (error) { console.error("Error al publicar novedad:", error); }
 });
-
-function loadSentUpdates() {
-    const q = query(collection(db, "system_updates"), orderBy("createdAt", "desc"));
-    onSnapshot(q, (snapshot) => {
-        sentUpdatesList.innerHTML = '';
-        snapshot.forEach((doc) => {
-            const update = doc.data();
-            const li = document.createElement('li');
-            const date = update.createdAt?.toDate().toLocaleString('es-CO') || '';
-            li.innerHTML = `<strong>${update.title}</strong><p>${update.content.replace(/\n/g, '<br>')}</p><small>${date}</small>`;
-            sentUpdatesList.appendChild(li);
-        });
-    });
-}
 
 // --- LÓGICA PARA NOTIFICACIONES (system_notifications) ---
 notificationForm.addEventListener('submit', async (e) => {
@@ -112,6 +122,30 @@ function loadSentNotifications() {
             const date = notif.createdAt?.toDate().toLocaleString('es-CO') || '';
             li.innerHTML = `<strong>${notif.title}</strong><p>${notif.description}</p><small>${date}</small>`;
             sentNotificationsList.appendChild(li);
+        });
+    });
+}
+
+// --- LÓGICA PARA MOSTRAR NOVEDADES (ACTUALIZADA CON BOTÓN DE ELIMINAR) ---
+function loadSentUpdates() {
+    const q = query(collection(db, "system_updates"), orderBy("createdAt", "desc"));
+    onSnapshot(q, (snapshot) => {
+        sentUpdatesList.innerHTML = '';
+        snapshot.forEach((docSnap) => {
+            const update = docSnap.data();
+            const li = document.createElement('li');
+            li.innerHTML = `...`; // (tu innerHTML existente)
+            
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'delete-btn';
+            deleteBtn.textContent = 'Eliminar';
+            deleteBtn.onclick = async () => {
+                if (confirm(`¿Seguro que quieres eliminar la novedad "${update.title}"?`)) {
+                    await deleteDoc(doc(db, "system_updates", docSnap.id));
+                }
+            };
+            li.prepend(deleteBtn); // Añade el botón al principio del <li>
+            sentUpdatesList.appendChild(li);
         });
     });
 }
