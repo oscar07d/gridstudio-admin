@@ -199,25 +199,22 @@ button:hover {
     box-shadow: none;
 }
 
-/* === STYLES FOR VISIBILITY OPTIONS (INLINE) === */
+/* === STYLES FOR VISIBILITY OPTIONS (BASIC) === */
 .visibility-options {
     margin-bottom: 15px;
     padding-left: 20px;
 }
 
-.visibility-options > div {
-    margin-bottom: 8px;
-}
-
 .visibility-options label {
+    display: block;
+    margin-bottom: 5px;
     font-weight: normal;
     font-size: 0.9rem;
     color: var(--text-muted-color);
-    margin-left: 5px;
-    vertical-align: middle;
 }
 
 .visibility-options input {
+    margin-right: 5px;
     vertical-align: middle;
 }
 
