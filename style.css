@@ -204,6 +204,7 @@ button:hover {
 /* ============================================= */
 
 .visibility-options {
+    display: block !important;
     border: 1px solid var(--border-color);
     padding: 15px 20px;
     border-radius: var(--border-radius-m);
@@ -254,4 +255,5 @@ button:hover {
     margin-top: 5px;
     /* Por defecto, el input de fecha está oculto por el JavaScript */
 }
+
 
