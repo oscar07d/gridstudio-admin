@@ -53,13 +53,15 @@
         
             <div id="tab-notificaciones" class="tab-pane">
                 <form id="notification-form">
-                    <h2>Enviar Notificación Rápida</h2>
-                    <fieldset class="visibility-options">
-                        <legend>Opciones de Visibilidad</legend>
-                        <label><input type="radio" name="notif-visibility" value="indefinite" checked> Indefinido (eliminar manualmente)</label>
-                        <label><input type="radio" name="notif-visibility" value="expires"> Programar desaparición</label>
-                        <input type="text" id="notif-expires-at" class="flatpickr-input" placeholder="Selecciona fecha y hora" disabled>
-                    </fieldset>
+                    <h2>Enviar Notificación Rápida (para el modal)</h2>
+                    <div class="form-group">
+                        <label for="notification-title-input">Título:</label>
+                        <input type="text" id="notification-title-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="notification-desc-input">Descripción:</label>
+                        <textarea id="notification-desc-input" rows="4" required></textarea>
+                    </div>
                     <button type="submit">Enviar Notificación</button>
                 </form>
                 <h2>Notificaciones Enviadas</h2>
@@ -73,5 +75,6 @@
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 </html>
+
 
 
