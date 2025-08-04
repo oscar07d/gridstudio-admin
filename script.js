@@ -64,7 +64,7 @@ notificationForm.addEventListener('submit', async (e) => {
     }
 
     try {
-        await addDoc(collection(db, "system_notifications"), {
+        await addDoc(collection(db, "system_updates"), {
             title: title,
             description: description,
             createdAt: serverTimestamp()
@@ -88,3 +88,4 @@ function loadSentNotifications() {
         });
     });
 }
+
